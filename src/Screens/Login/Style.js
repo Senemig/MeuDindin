@@ -47,6 +47,11 @@ const styles = StyleSheet.create({
     fontWeight: 'bold',
     color: 'white',
   },
+  txtRegistrar: {
+    fontSize: 25,
+    fontWeight: 'bold',
+    color: '#ed5624',
+  },
 });
 
 export default styles;

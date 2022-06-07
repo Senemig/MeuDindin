@@ -3,8 +3,6 @@ import React, {Component, useEffect} from 'react';
 import {NavigationContainer} from '@react-navigation/native';
 import {createStackNavigator} from '@react-navigation/stack';
 import Login from './src/Screens/Login/Login';
-import {Header} from 'react-native-elements';
-import {screensEnabled, ScreenStackHeaderConfig} from 'react-native-screens';
 
 const Stack = createStackNavigator();
 
