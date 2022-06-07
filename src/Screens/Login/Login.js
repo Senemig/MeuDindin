@@ -10,13 +10,14 @@ import styles from './Style';
 import React, {useState, useEffect} from 'react';
 
 import {openDatabase} from 'react-native-sqlite-storage';
+import {NavigationContainer} from '@react-navigation/native';
 
 var db = openDatabase({
   name: 'dbMeuDindin.db',
   location: 'default',
 });
 
-const Login = () => {
+const Login = ({navigation}) => {
   const [user, setUser] = useState('');
   const [psw, setPsw] = useState('');
   const [modalVisible, setModalVisible] = useState(false);
@@ -52,10 +53,7 @@ const Login = () => {
           [user, psw],
           (tx, result) => {
             if (result.rows.length > 0) {
-              Alert.alert(
-                'Logado com sucesso!',
-                'Usuário ' + user + ' e senha ' + psw + ' corretos!',
-              );
+              navigation.navigate('Home', {nome: user});
             } else {
               Alert.alert(
                 'Login inválido!',
@@ -149,12 +147,14 @@ const Login = () => {
         <TextInput
           placeholder="Usuário"
           style={styles.input}
+          value={user}
           onChangeText={txt => setUser(txt)}
         />
         <TextInput
           placeholder="Senha"
           secureTextEntry
           style={styles.input}
+          value={psw}
           onChangeText={txt => setPsw(txt)}
         />
         <TouchableOpacity
