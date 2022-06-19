@@ -8,7 +8,7 @@ const styles = StyleSheet.create({
     borderBottomStartRadius: 40,
     borderBottomEndRadius: 40,
     alignItems: 'center',
-    justifyContent: 'space-evenly',
+    justifyContent: 'center',
     flexDirection: 'row',
   },
   image: {
@@ -22,6 +22,7 @@ const styles = StyleSheet.create({
     fontSize: 30,
     fontWeight: 'bold',
     color: 'white',
+    marginLeft: 20,
   },
 });
 

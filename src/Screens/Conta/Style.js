@@ -21,10 +21,10 @@ const styles = StyleSheet.create({
     fontWeight: 'bold',
     color: '#494949',
   },
-  gerenciar: {
+  botao: {
     width: 277,
     height: 51,
-    backgroundColor: '#49ABD4',
+    backgroundColor: '#f54a11',
     borderRadius: 20,
     justifyContent: 'center',
     alignItems: 'center',
@@ -84,6 +84,9 @@ const styles = StyleSheet.create({
   list: {
     height: 400,
     width: '80%',
+  },
+  dropdown: {
+    marginVertical: 20,
   },
 });
 

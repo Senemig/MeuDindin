@@ -33,7 +33,7 @@ const Login = ({navigation}) => {
             console.log('Criando tabela Usuarios');
             tx.executeSql('DROP TABLE IF EXISTS Usuarios', []);
             tx.executeSql(
-              'CREATE TABLE IF NOT EXISTS Usuarios(id INTEGER PRIMARY KEY AUTOINCREMENT, nome VARCHAR(30), senha VARCHAR(30))',
+              'CREATE TABLE IF NOT EXISTS Usuarios(id INTEGER PRIMARY KEY AUTOINCREMENT, nome VARCHAR(30), senha VARCHAR(30), saldo DOUBLE)',
               [],
             );
           }
@@ -53,11 +53,15 @@ const Login = ({navigation}) => {
           [user, psw],
           (tx, result) => {
             if (result.rows.length > 0) {
-              navigation.navigate('Home', {nome: user});
+              navigation.navigate('Home', {
+                nome: result.rows.item(0).nome,
+                id: result.rows.item(0).id,
+                saldo: result.rows.item(0).saldo,
+              });
             } else {
               Alert.alert(
                 'Login inválido!',
-                'Usuário ' + user + ' e senha ' + psw + ' não encontrados!',
+                'Usuário e senha não encontrados!',
               );
             }
           },
@@ -83,8 +87,8 @@ const Login = ({navigation}) => {
             } else {
               db.transaction(tx => {
                 tx.executeSql(
-                  'INSERT INTO Usuarios (nome, senha) VALUES (?, ?)',
-                  [user, psw],
+                  'INSERT INTO Usuarios (nome, senha, saldo) VALUES (?, ?, ?)',
+                  [user, psw, parseFloat(0)],
                   (tx, result) => {
                     console.log('Results', result.rowsAffected);
                     if (result.rowsAffected > 0) {

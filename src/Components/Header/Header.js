@@ -11,7 +11,7 @@ const Header = props => {
           style={styles.image}
           source={{uri: 'https://picsum.photos/85/85'}}
         />
-        <Text style={styles.text}>Olá, {props.nome}!</Text>
+        <Text style={styles.text}>{props.msg}</Text>
     </View>
   );
 };
