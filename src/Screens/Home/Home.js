@@ -28,6 +28,7 @@ const Home = ({route, navigation}) => {
   const [modalVisible, setModalVisible] = useState(false);
   const [nomeConta, setNomeConta] = useState('');
   const [saldo, setSaldo] = useState(0);
+  const [foto, setFoto] = useState('');
   const isFocused = useIsFocused();
 
   useEffect(() => {
@@ -158,7 +159,10 @@ const Home = ({route, navigation}) => {
   return (
     <SafeAreaView>
       <View style={styles.container}>
-        <Header msg={'Olá, ' + route.params.nome + '!'} />
+        <Header
+          msg={'Olá, ' + route.params.nome + '!'}
+          foto={route.params.foto}
+        />
         <View style={styles.saldo}>
           <View style={{justifyContent: 'space-evenly'}}>
             <Text>Saldo Total</Text>

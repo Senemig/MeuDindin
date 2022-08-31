@@ -1,11 +1,4 @@
-import {
-  View,
-  Text,
-  TextInput,
-  TouchableOpacity,
-  Alert,
-  Modal,
-} from 'react-native';
+import {View, Text, TextInput, TouchableOpacity, Modal} from 'react-native';
 import styles from './Style';
 import React, {useState, useEffect} from 'react';
 
@@ -17,10 +10,9 @@ var db = openDatabase({
   location: 'default',
 });
 
-const Login = ({navigation}) => {
+const Login = ({navigation, route}) => {
   const [user, setUser] = useState('');
   const [psw, setPsw] = useState('');
-  const [modalVisible, setModalVisible] = useState(false);
 
   useEffect(() => {
     db.transaction(tx => {
@@ -33,7 +25,7 @@ const Login = ({navigation}) => {
             console.log('Criando tabela Usuarios');
             tx.executeSql('DROP TABLE IF EXISTS Usuarios', []);
             tx.executeSql(
-              'CREATE TABLE IF NOT EXISTS Usuarios(id INTEGER PRIMARY KEY AUTOINCREMENT, nome VARCHAR(30), senha VARCHAR(30), saldo DOUBLE)',
+              'CREATE TABLE IF NOT EXISTS Usuarios(id INTEGER PRIMARY KEY AUTOINCREMENT, nome VARCHAR(30), senha VARCHAR(30), saldo DOUBLE, foto TEXT)',
               [],
             );
           }
@@ -57,6 +49,7 @@ const Login = ({navigation}) => {
                 nome: result.rows.item(0).nome,
                 id: result.rows.item(0).id,
                 saldo: result.rows.item(0).saldo,
+                foto: result.rows.item(0).foto,
               });
             } else {
               Alert.alert(
@@ -70,50 +63,10 @@ const Login = ({navigation}) => {
     }
   }
 
-  function registrar() {
-    if (user == '' || psw == '') {
-      Alert.alert('Registro inválido!', 'Você deve preencher todos os campos!');
-    } else {
-      db.transaction(tx => {
-        tx.executeSql(
-          'SELECT * FROM Usuarios WHERE nome = ?',
-          [user],
-          (tx, result) => {
-            if (result.rows.length > 0) {
-              Alert.alert(
-                'Erro no cadastro!',
-                'Usuário ' + user + ' já tem cadastro!',
-              );
-            } else {
-              db.transaction(tx => {
-                tx.executeSql(
-                  'INSERT INTO Usuarios (nome, senha, saldo) VALUES (?, ?, ?)',
-                  [user, psw, parseFloat(0)],
-                  (tx, result) => {
-                    console.log('Results', result.rowsAffected);
-                    if (result.rowsAffected > 0) {
-                      Alert.alert(
-                        'Registro concluído!',
-                        'Usuário ' + user + ' registrado com sucesso!',
-                      );
-                      setUser('');
-                      setPsw('');
-                      setModalVisible(false);
-                    }
-                  },
-                );
-              });
-            }
-          },
-        );
-      });
-    }
-  }
-
   return (
     <View style={styles.container}>
       {/* Modal para registrar novo usuário */}
-      <Modal
+      {/* <Modal
         animationType="slide"
         visible={modalVisible}
         onRequestClose={() => {
@@ -124,6 +77,11 @@ const Login = ({navigation}) => {
         <View style={styles.container}>
           <Text style={styles.titulo}>Cadastro</Text>
           <View style={styles.form}>
+            <TouchableOpacity
+              style={styles.inputEntrar}
+              onPress={() => navigation.navigate('Camera')}>
+              <Text style={styles.txtNormal}>Cadastrar</Text>
+            </TouchableOpacity>
             <TextInput
               placeholder="Usuário"
               style={styles.input}
@@ -144,7 +102,7 @@ const Login = ({navigation}) => {
             </TouchableOpacity>
           </View>
         </View>
-      </Modal>
+      </Modal> */}
       {/* ********************************************** */}
       <Text style={styles.titulo}>Login</Text>
       <View style={styles.form}>
@@ -171,7 +129,7 @@ const Login = ({navigation}) => {
         <TouchableOpacity
           style={styles.inputRegistrar}
           onPress={() => {
-            setModalVisible(true);
+            navigation.navigate('Registrar');
           }}>
           <Text style={styles.txtRegistrar}>Registrar</Text>
         </TouchableOpacity>

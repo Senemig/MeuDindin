@@ -5,6 +5,8 @@ import {createStackNavigator} from '@react-navigation/stack';
 import Login from './src/Screens/Login/Login';
 import Home from './src/Screens/Home/Home';
 import Conta from './src/Screens/Conta';
+import Camera from './src/Screens/Camera/Camera';
+import Registrar from './src/Screens/Registrar/Registrar';
 
 const Stack = createStackNavigator();
 
@@ -18,6 +20,12 @@ const App = () => {
           component={Login}
         />
         <Stack.Screen
+          name="Registrar"
+          options={{headerShown: false}}
+          component={Registrar}
+          initialParams={{foto: ''}}
+        />
+        <Stack.Screen
           name="Home"
           options={{headerShown: false}}
           component={Home}
@@ -26,6 +34,11 @@ const App = () => {
           name="Conta"
           options={{headerShown: false}}
           component={Conta}
+        />
+        <Stack.Screen
+          name="Camera"
+          options={{headerShown: false}}
+          component={Camera}
         />
       </Stack.Navigator>
     </NavigationContainer>

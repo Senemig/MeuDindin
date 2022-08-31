@@ -135,6 +135,7 @@ android {
     compileSdkVersion rootProject.ext.compileSdkVersion
 
     defaultConfig {
+        missingDimensionStrategy 'react-native-camera', 'general' // <--- insert this line
         applicationId "com.meudindin"
         minSdkVersion rootProject.ext.minSdkVersion
         targetSdkVersion rootProject.ext.targetSdkVersion
