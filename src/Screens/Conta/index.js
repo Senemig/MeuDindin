@@ -1,13 +1,13 @@
+import {FlatList, SafeAreaView, Modal, Alert} from 'react-native';
 import {
-  View,
+  NativeBaseProvider,
   Text,
-  TouchableOpacity,
-  FlatList,
-  SafeAreaView,
-  Modal,
-  TextInput,
-  Alert,
-} from 'react-native';
+  Box,
+  Heading,
+  Input,
+  MaterialIcons,
+  Button,
+} from 'native-base';
 import React, {useState, useEffect} from 'react';
 
 import styles from './Style';
@@ -140,85 +140,139 @@ const Conta = ({route, navigation}) => {
   }
 
   return (
-    <SafeAreaView>
-      <View style={styles.container}>
-        <Header msg={conta} />
-        <View style={styles.saldo}>
-          <View style={{justifyContent: 'space-evenly'}}>
-            <Text>Saldo Total</Text>
-            <Text style={styles.number}>R$ {saldo.toFixed(2)}</Text>
-          </View>
-          <Icon name="eye-off-outline" size={50} color="#B0B0B0" />
-        </View>
-        <FlatList
-          style={styles.list}
-          data={data}
-          renderItem={({item}) => (
-            <Card
-              nome={item.nome}
-              saldo={item.valor}
-              tipo={item.tipo}
-              // onPress={() => {
-              //   remover(item.id);
-              // }}
-            />
-          )}
-        />
-        <TouchableOpacity
-          style={styles.botao}
-          onPress={() => {
-            setModalVisible(true);
+    <NativeBaseProvider>
+      <SafeAreaView>
+        <Box alignItems={'center'}>
+          <Header msg={conta} />
+          <Box
+            py={1}
+            px={1}
+            mt={5}
+            w={'80%'}
+            alignItems={'center'}
+            justifyContent={'space-between'}
+            flexDirection={'row'}
+            borderLeftColor={'primary.700'}
+            borderLeftWidth={3}>
+            <Box>
+              <Text fontWeight={'bold'} color={'muted.500'} letterSpacing={1}>
+                Saldo Total
+              </Text>
+              <Text fontSize={30} fontWeight={'bold'} color={'muted.600'}>
+                R$ {saldo.toFixed(2)}
+              </Text>
+            </Box>
+            <Icon name="eye-off-outline" size={50} color="#B0B0B0" />
+          </Box>
+          <FlatList
+            style={styles.list}
+            data={data}
+            renderItem={({item}) => (
+              <Card
+                nome={item.nome}
+                saldo={item.valor}
+                tipo={item.tipo}
+                // onPress={() => {
+                //   remover(item.id);
+                // }}
+              />
+            )}
+          />
+          <Button
+            rounded={20}
+            size={'lg'}
+            mt={10}
+            bg={'warning.600'}
+            _text={{
+              fontSize: 18,
+              fontWeight: 'bold',
+              textTransform: 'uppercase',
+            }}
+            onPress={() => {
+              setModalVisible(true);
+            }}>
+            Novo Lançamento
+          </Button>
+        </Box>
+        {/* Modal para registrar novo usuário */}
+        <Modal
+          animationType="slide"
+          visible={modalVisible}
+          onRequestClose={() => {
+            setModalVisible(!modalVisible);
           }}>
-          <Text style={styles.text}>Novo Lançamento</Text>
-        </TouchableOpacity>
-      </View>
-      {/* Modal para registrar novo usuário */}
-      <Modal
-        animationType="slide"
-        visible={modalVisible}
-        onRequestClose={() => {
-          setModalVisible(!modalVisible);
-        }}>
-        <View style={{backgroundColor: '#49ABD4', height: '100%'}}>
-          <Text style={styles.titulo}>Novo Lançamento</Text>
-          <View style={styles.form}>
-            <TextInput
-              placeholder="Nome"
-              style={styles.input}
-              onChangeText={txt => setNome(txt.trim())}
-            />
-            <SelectDropdown
-              buttonStyle={styles.dropdown}
-              data={tipos}
-              onSelect={(selectedItem, index) => {
-                setTipo(index);
-              }}
-              defaultValueByIndex={0}
-              buttonTextAfterSelection={(selectedItem, index) => {
-                return selectedItem;
-              }}
-              rowTextForSelection={(item, index) => {
-                return item;
-              }}
-            />
-            <TextInput
-              placeholder="Valor"
-              keyboardType="decimal-pad"
-              style={styles.input}
-              onChangeText={txt => setValor(txt)}
-            />
-            <TouchableOpacity
-              style={styles.inputEntrar}
-              onPress={() => {
-                registrar();
-              }}>
-              <Text style={styles.txtNormal}>Lançar</Text>
-            </TouchableOpacity>
-          </View>
-        </View>
-      </Modal>
-      {/* ********************************************** */}
-    </SafeAreaView>
+          <Box flex={1} alignItems={'center'} bg="primary.500">
+            <Heading
+              my={5}
+              size={'xl'}
+              fontSize={'40'}
+              textAlign={'center'}
+              color={'warning.500'}
+              fontWeight={'extrabold'}>
+              Novo Lançamento
+            </Heading>
+            <Box>
+              <Input
+                w={{
+                  base: '75%',
+                  md: '25%',
+                }}
+                bg={'primary.100'}
+                mt={5}
+                fontSize={20}
+                variant={'rounded'}
+                _focus={{bg: 'primary.100'}}
+                placeholder="Nome"
+                onChangeText={txt => setNome(txt.trim())}
+              />
+              <SelectDropdown
+                buttonStyle={styles.dropdown}
+                data={tipos}
+                onSelect={(selectedItem, index) => {
+                  setTipo(index);
+                }}
+                defaultValueByIndex={0}
+                buttonTextAfterSelection={(selectedItem, index) => {
+                  return selectedItem;
+                }}
+                rowTextForSelection={(item, index) => {
+                  return item;
+                }}
+              />
+              <Input
+                w={{
+                  base: '75%',
+                  md: '25%',
+                }}
+                bg={'primary.100'}
+                mt={5}
+                fontSize={20}
+                variant={'rounded'}
+                _focus={{bg: 'primary.100'}}
+                placeholder="Valor"
+                keyboardType="decimal-pad"
+                onChangeText={txt => setValor(txt)}
+              />
+              <Button
+                mt={5}
+                rounded={20}
+                bg={'warning.600'}
+                _text={{
+                  fontSize: 18,
+                  fontWeight: 'bold',
+                  textTransform: 'uppercase',
+                }}
+                onPress={() => {
+                  registrar();
+                }}>
+                Lançar
+              </Button>
+            </Box>
+          </Box>
+        </Modal>
+        {/* ********************************************** */}
+      </SafeAreaView>
+    </NativeBaseProvider>
   );
 };
 

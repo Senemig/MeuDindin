@@ -1,4 +1,14 @@
-import {View, Text, TextInput, TouchableOpacity, Modal} from 'react-native';
+import {View, TouchableOpacity, Modal, Alert} from 'react-native';
+import {
+  NativeBaseProvider,
+  Text,
+  Box,
+  Heading,
+  Input,
+  Icon,
+  MaterialIcons,
+  Button,
+} from 'native-base';
 import styles from './Style';
 import React, {useState, useEffect} from 'react';
 
@@ -64,77 +74,80 @@ const Login = ({navigation, route}) => {
   }
 
   return (
-    <View style={styles.container}>
-      {/* Modal para registrar novo usuário */}
-      {/* <Modal
-        animationType="slide"
-        visible={modalVisible}
-        onRequestClose={() => {
-          setUser('');
-          setPsw('');
-          setModalVisible(!modalVisible);
-        }}>
-        <View style={styles.container}>
-          <Text style={styles.titulo}>Cadastro</Text>
-          <View style={styles.form}>
-            <TouchableOpacity
-              style={styles.inputEntrar}
-              onPress={() => navigation.navigate('Camera')}>
-              <Text style={styles.txtNormal}>Cadastrar</Text>
-            </TouchableOpacity>
-            <TextInput
-              placeholder="Usuário"
-              style={styles.input}
-              onChangeText={txt => setUser(txt.trim())}
-            />
-            <TextInput
-              placeholder="Senha"
-              secureTextEntry
-              style={styles.input}
-              onChangeText={txt => setPsw(txt.trim())}
-            />
-            <TouchableOpacity
-              style={styles.inputEntrar}
-              onPress={() => {
-                registrar();
-              }}>
-              <Text style={styles.txtNormal}>Cadastrar</Text>
-            </TouchableOpacity>
-          </View>
-        </View>
-      </Modal> */}
-      {/* ********************************************** */}
-      <Text style={styles.titulo}>Login</Text>
-      <View style={styles.form}>
-        <TextInput
-          placeholder="Usuário"
-          style={styles.input}
-          value={user}
-          onChangeText={txt => setUser(txt)}
-        />
-        <TextInput
-          placeholder="Senha"
-          secureTextEntry
-          style={styles.input}
-          value={psw}
-          onChangeText={txt => setPsw(txt)}
-        />
-        <TouchableOpacity
-          style={styles.inputEntrar}
-          onPress={() => {
-            login();
-          }}>
-          <Text style={styles.txtNormal}>Entrar</Text>
-        </TouchableOpacity>
-        <TouchableOpacity
-          style={styles.inputRegistrar}
-          onPress={() => {
-            navigation.navigate('Registrar');
-          }}>
-          <Text style={styles.txtRegistrar}>Registrar</Text>
-        </TouchableOpacity>
-      </View>
-    </View>
+    <NativeBaseProvider>
+      <Box flex={1} bg="primary.500" py={5}>
+        <Heading
+          size={'4xl'}
+          fontSize={'70'}
+          textAlign={'center'}
+          color={'warning.500'}
+          fontWeight={'extrabold'}>
+          Login
+        </Heading>
+        <Box alignItems={'center'} my={10}>
+          <Input
+            w={{
+              base: '75%',
+              md: '25%',
+            }}
+            bg={'primary.100'}
+            variant={'rounded'}
+            mb={5}
+            fontSize={20}
+            placeholder="Usuário"
+            value={user}
+            onChangeText={txt => setUser(txt)}
+            _focus={{bg: 'primary.100'}}
+          />
+          <Input
+            w={{
+              base: '75%',
+              md: '25%',
+            }}
+            bg={'primary.100'}
+            fontSize={20}
+            variant={'rounded'}
+            placeholder="Senha"
+            type="password"
+            value={psw}
+            onChangeText={txt => setPsw(txt)}
+            _focus={{bg: 'primary.100'}}
+          />
+          <Button
+            rounded={20}
+            size={'lg'}
+            w={40}
+            mt={10}
+            bg={'warning.600'}
+            onPress={() => {
+              login();
+            }}
+            _text={{
+              fontSize: 24,
+              fontWeight: 'bold',
+              textTransform: 'uppercase',
+            }}>
+            Entrar
+          </Button>
+          <Button
+            variant={'link'}
+            size={'lg'}
+            w={40}
+            mt={5}
+            onPress={() => {
+              navigation.navigate('Registrar');
+            }}
+            _text={{
+              fontSize: 24,
+              fontWeight: 'extrabold',
+              textTransform: 'uppercase',
+              color: 'warning.600',
+            }}>
+            Registrar
+          </Button>
+        </Box>
+      </Box>
+    </NativeBaseProvider>
   );
 };
 

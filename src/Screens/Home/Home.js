@@ -1,13 +1,13 @@
+import {FlatList, SafeAreaView, Modal, Alert} from 'react-native';
 import {
-  View,
+  NativeBaseProvider,
   Text,
-  TouchableOpacity,
-  FlatList,
-  SafeAreaView,
-  Modal,
-  TextInput,
-  Alert,
-} from 'react-native';
+  Box,
+  Heading,
+  Input,
+  MaterialIcons,
+  Button,
+} from 'native-base';
 import React, {useState, useEffect} from 'react';
 import {useIsFocused} from '@react-navigation/native';
 import styles from './Style';
@@ -157,73 +157,121 @@ const Home = ({route, navigation}) => {
   }
 
   return (
-    <SafeAreaView>
-      <View style={styles.container}>
-        <Header
-          msg={'Olá, ' + route.params.nome + '!'}
-          foto={route.params.foto}
-        />
-        <View style={styles.saldo}>
-          <View style={{justifyContent: 'space-evenly'}}>
-            <Text>Saldo Total</Text>
-            <Text style={styles.number}>R$ {somaDinheiro.toFixed(2)}</Text>
-          </View>
-          <Icon name="eye-off-outline" size={50} color="#B0B0B0" />
-        </View>
-        <FlatList
-          style={styles.list}
-          data={contas}
-          renderItem={({item}) => (
-            <Card
-              nome={item.nome}
-              saldo={item.saldo}
-              onPress={() => {
-                navigation.navigate('Conta', {
-                  userId: route.params.id,
-                  conta: item.nome,
-                  nome: route.params.nome,
-                  saldo: item.saldo,
-                  saldoUser: somaDinheiro,
-                });
-              }}
-            />
-          )}
-        />
-        <TouchableOpacity
-          style={styles.gerenciar}
-          onPress={() => {
-            setModalVisible(true);
+    <NativeBaseProvider>
+      <SafeAreaView>
+        <Box alignItems={'center'}>
+          <Header
+            msg={'Olá, ' + route.params.nome + '!'}
+            foto={route.params.foto}
+          />
+          <Box
+            py={1}
+            px={1}
+            mt={5}
+            w={'80%'}
+            alignItems={'center'}
+            justifyContent={'space-between'}
+            flexDirection={'row'}
+            borderLeftColor={'primary.700'}
+            borderLeftWidth={3}>
+            <Box>
+              <Text fontWeight={'bold'} color={'muted.500'} letterSpacing={1}>
+                Saldo Total
+              </Text>
+              <Text fontSize={30} fontWeight={'bold'} color={'muted.600'}>
+                R$ {somaDinheiro.toFixed(2)}
+              </Text>
+            </Box>
+            <Icon name="eye-off-outline" size={50} color="#B0B0B0" />
+          </Box>
+          <FlatList
+            style={styles.list}
+            data={contas}
+            renderItem={({item}) => (
+              <Card
+                nome={item.nome}
+                saldo={item.saldo}
+                onPress={() => {
+                  navigation.navigate('Conta', {
+                    userId: route.params.id,
+                    conta: item.nome,
+                    nome: route.params.nome,
+                    saldo: item.saldo,
+                    saldoUser: somaDinheiro,
+                  });
+                }}
+              />
+            )}
+          />
+          <Button
+            rounded={20}
+            size={'lg'}
+            mt={10}
+            bg={'warning.600'}
+            _text={{
+              fontSize: 18,
+              fontWeight: 'bold',
+              textTransform: 'uppercase',
+            }}
+            onPress={() => {
+              setModalVisible(true);
+            }}>
+            Gerenciar Contas
+          </Button>
+        </Box>
+        {/* Modal para registrar novo usuário */}
+        <Modal
+          animationType="slide"
+          visible={modalVisible}
+          onRequestClose={() => {
+            setModalVisible(!modalVisible);
           }}>
-          <Text style={styles.text}>Gerenciar Contas</Text>
-        </TouchableOpacity>
-      </View>
-      {/* Modal para registrar novo usuário */}
-      <Modal
-        animationType="slide"
-        visible={modalVisible}
-        onRequestClose={() => {
-          setModalVisible(!modalVisible);
-        }}>
-        <View style={{backgroundColor: '#49ABD4', height: '100%'}}>
-          <Text style={styles.titulo}>Criar Conta</Text>
-          <View style={styles.form}>
-            <TextInput
-              placeholder="Conta"
-              style={styles.input}
-              onChangeText={txt => setNomeConta(txt.trim())}
-            />
-            <TouchableOpacity
-              style={styles.inputEntrar}
-              onPress={() => {
-                registrar();
-              }}>
-              <Text style={styles.txtNormal}>Criar</Text>
-            </TouchableOpacity>
-          </View>
-        </View>
-      </Modal>
-      {/* ********************************************** */}
-    </SafeAreaView>
+          <Box flex={1} alignItems={'center'} bg="primary.500">
+            <Heading
+              mb={5}
+              size={'xl'}
+              fontSize={'60'}
+              textAlign={'center'}
+              color={'warning.500'}
+              fontWeight={'extrabold'}>
+              Criar Conta
+            </Heading>
+            <Box>
+              <Input
+                value={nomeConta}
+                w={{
+                  base: '75%',
+                  md: '25%',
+                }}
+                bg={'primary.100'}
+                mt={5}
+                fontSize={20}
+                variant={'rounded'}
+                _focus={{bg: 'primary.100'}}
+                placeholder="Conta"
+                onChangeText={txt => setNomeConta(txt.trim())}
+              />
+              <Button
+                mt={5}
+                rounded={20}
+                size={'md'}
+                bg={'warning.600'}
+                _text={{
+                  fontSize: 18,
+                  fontWeight: 'bold',
+                  textTransform: 'uppercase',
+                }}
+                onPress={() => {
+                  registrar();
+                }}>
+                Criar
+              </Button>
+            </Box>
+          </Box>
+        </Modal>
+        {/* ********************************************** */}
+      </SafeAreaView>
+    </NativeBaseProvider>
   );
 };
 

@@ -1,11 +1,14 @@
+import {Image, Alert} from 'react-native';
 import {
-  View,
+  NativeBaseProvider,
   Text,
-  Image,
-  TouchableOpacity,
-  Alert,
-  TextInput,
-} from 'react-native';
+  Box,
+  Heading,
+  Input,
+  Icon,
+  MaterialIcons,
+  Button,
+} from 'native-base';
 import React, {useState, useEffect} from 'react';
 import styles from '../Login/Style';
 
@@ -79,35 +82,79 @@ const Registrar = ({navigation, route}) => {
   }
 
   return (
-    <View style={styles.container}>
-      <Text style={styles.titulo}>Cadastro</Text>
-      <View style={styles.form}>
-        <Image source={{uri: route.params.foto}} style={styles.Image} />
-        <TouchableOpacity
-          style={styles.inputFoto}
-          onPress={() => navigation.navigate('Camera')}>
-          <Text style={styles.txtNormal}>Tirar Foto</Text>
-        </TouchableOpacity>
-        <TextInput
-          placeholder="Usuário"
-          style={styles.input}
-          onChangeText={txt => setUser(txt.trim())}
-        />
-        <TextInput
-          placeholder="Senha"
-          secureTextEntry
-          style={styles.input}
-          onChangeText={txt => setPsw(txt.trim())}
-        />
-        <TouchableOpacity
-          style={styles.inputEntrar}
-          onPress={() => {
-            registrar();
-          }}>
-          <Text style={styles.txtNormal}>Cadastrar</Text>
-        </TouchableOpacity>
-      </View>
-    </View>
+    <NativeBaseProvider>
+      <Box flex={1} alignItems={'center'} bg="primary.500">
+        <Heading
+          mb={5}
+          size={'xl'}
+          fontSize={'60'}
+          textAlign={'center'}
+          color={'warning.500'}
+          fontWeight={'extrabold'}>
+          Cadastro
+        </Heading>
+        <Box alignItems={'center'}>
+          <Image source={{uri: route.params.foto}} style={styles.Image} />
+          <Button
+            onPress={() => navigation.navigate('Camera')}
+            rounded={20}
+            size={'md'}
+            bg={'warning.600'}
+            _text={{
+              fontSize: 18,
+              fontWeight: 'bold',
+              textTransform: 'uppercase',
+            }}>
+            Tirar Foto
+          </Button>
+          <Input
+            w={{
+              base: '75%',
+              md: '25%',
+            }}
+            bg={'primary.100'}
+            mt={5}
+            fontSize={20}
+            variant={'rounded'}
+            placeholder="Senha"
+            type="password"
+            value={psw}
+            _focus={{bg: 'primary.100'}}
+            onChangeText={txt => setUser(txt.trim())}
+          />
+          <Input
+            w={{
+              base: '75%',
+              md: '25%',
+            }}
+            bg={'primary.100'}
+            mt={5}
+            fontSize={20}
+            variant={'rounded'}
+            placeholder="Senha"
+            type="password"
+            value={psw}
+            _focus={{bg: 'primary.100'}}
+            onChangeText={txt => setPsw(txt.trim())}
+          />
+          <Button
+            mt={5}
+            rounded={20}
+            size={'md'}
+            bg={'warning.600'}
+            _text={{
+              fontSize: 18,
+              fontWeight: 'bold',
+              textTransform: 'uppercase',
+            }}
+            onPress={() => {
+              registrar();
+            }}>
+            Cadastrar
+          </Button>
+        </Box>
+      </Box>
+    </NativeBaseProvider>
   );
 };
 
