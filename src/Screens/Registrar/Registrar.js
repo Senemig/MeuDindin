@@ -116,9 +116,8 @@ const Registrar = ({navigation, route}) => {
             mt={5}
             fontSize={20}
             variant={'rounded'}
-            placeholder="Senha"
-            type="password"
-            value={psw}
+            placeholder="Nome"
+            value={user}
             _focus={{bg: 'primary.100'}}
             onChangeText={txt => setUser(txt.trim())}
           />

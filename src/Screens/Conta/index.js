@@ -109,7 +109,12 @@ const Conta = ({route, navigation}) => {
   }
 
   function alterarSaldo() {
-    let temp = parseFloat(saldo) + parseFloat(valor);
+    let temp = 0;
+    if (tipo === 0) {
+      temp = parseFloat(saldo) + parseFloat(valor);
+    } else {
+      temp = parseFloat(saldo) - parseFloat(valor);
+    }
     db.transaction(tx => {
       console.log('alterando saldo para ' + temp);
       tx.executeSql(

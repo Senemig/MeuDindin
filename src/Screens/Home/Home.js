@@ -103,8 +103,8 @@ const Home = ({route, navigation}) => {
       console.log('Procurando conta ' + nomeConta);
       db.transaction(tx => {
         tx.executeSql(
-          'SELECT * FROM Contas WHERE nome = ?',
-          [nomeConta],
+          'SELECT * FROM Contas WHERE nome = ? AND user = ?',
+          [nomeConta, route.params.id],
           (tx, result) => {
             if (result.rows.length > 0) {
               Alert.alert(
@@ -219,7 +219,7 @@ const Home = ({route, navigation}) => {
             Gerenciar Contas
           </Button>
         </Box>
-        {/* Modal para registrar novo usuário */}
+        {/* Modal para registrar nova conta */}
         <Modal
           animationType="slide"
           visible={modalVisible}
